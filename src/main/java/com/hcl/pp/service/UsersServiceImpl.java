@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hcl.pp.dao.PetsRepository;
@@ -59,6 +60,8 @@ public class UsersServiceImpl implements UsersService {
 			if(user1 != null)
 				message = "This user already exist";
 			else {
+				BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+				user.setPassword(encode.encode(user.getPassword()));
 				userRepository.save(user);
 				message = "Successfully added new user";
 			}
